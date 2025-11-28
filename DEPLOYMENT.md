@@ -136,8 +136,7 @@ notepad .env.production
 Chỉnh sửa:
 ```env
 # Nếu chưa có domain, dùng IP:
-VITE_API_URL=http://YOUR_SERVER_IP:5000
-# Ví dụ: VITE_API_URL=http://123.456.789.0:5000
+VITE_API_URL=http://103.56.162.112:5000
 
 # Khi có domain, có thể đổi thành:
 # VITE_API_URL=https://api.yourdomain.com
@@ -273,20 +272,20 @@ pm2 start server.js --name websolar-frontend
 ### 6.1. Nếu chưa có domain (Dùng IP)
 
 Bạn có thể truy cập website bằng IP address:
-- Frontend: `http://YOUR_SERVER_IP`
-- Backend API: `http://YOUR_SERVER_IP:5000`
+- Frontend: `http://103.56.162.112`
+- Backend API: `http://103.56.162.112:5000`
 
 **Lưu ý:** 
 - Đảm bảo firewall đã mở port 80 và 5000
-- Cập nhật `VITE_API_URL` trong `.env.production` thành `http://YOUR_SERVER_IP:5000`
-- Để tìm IP server: chạy lệnh `ipconfig` và tìm IPv4 Address
+- Cập nhật `VITE_API_URL` trong `.env.production` thành `http://103.56.162.112:5000`
+- IP server hiện tại: **103.56.162.112**
 
 ### 6.2. Khi có domain (Cấu hình sau)
 
 1. **Mua domain** từ nhà cung cấp (Namecheap, GoDaddy, Cloudflare, etc.)
 2. **Trỏ DNS** về IP server của bạn:
-   - A record: `@` → `YOUR_SERVER_IP`
-   - A record: `www` → `YOUR_SERVER_IP` (nếu muốn)
+   - A record: `@` → `103.56.162.112`
+   - A record: `www` → `103.56.162.112` (nếu muốn)
 3. **Cập nhật cấu hình:**
    - Sửa `VITE_API_URL` trong `.env.production` thành domain mới
    - Cập nhật IIS binding với domain name
@@ -358,10 +357,10 @@ iisreset
    curl http://localhost:5000
    pm2 logs websolar-backend
    ```
-   - Kiểm tra từ máy khác: `http://YOUR_SERVER_IP:5000`
+   - Kiểm tra từ máy khác: `http://103.56.162.112:5000`
 
 3. **Frontend:**
-   - **Nếu chưa có domain:** Truy cập `http://YOUR_SERVER_IP` (port 80) hoặc `http://YOUR_SERVER_IP:3000` (nếu dùng Node.js server)
+   - **Nếu chưa có domain:** Truy cập `http://103.56.162.112` (port 80) hoặc `http://103.56.162.112:3000` (nếu dùng Node.js server)
    - **Nếu có domain:** Truy cập `http://yourdomain.com`
    - Kiểm tra console browser (F12) để xem có lỗi không
 
@@ -415,11 +414,11 @@ netsh advfirewall firewall add rule name="HTTP" dir=in action=allow protocol=TCP
 netsh advfirewall firewall add rule name="HTTPS" dir=in action=allow protocol=TCP localport=443
 ```
 
-**Kiểm tra IP server của bạn:**
-```cmd
-ipconfig
-```
-Tìm IPv4 Address (thường là 192.168.x.x cho mạng nội bộ, hoặc IP public từ nhà cung cấp VPS)
+**IP server của bạn:**
+- **IP Public:** `103.56.162.112`
+- Đây là IP để truy cập từ internet
+- Frontend sẽ chạy tại: `http://103.56.162.112`
+- Backend API sẽ chạy tại: `http://103.56.162.112:5000`
 
 ---
 
