@@ -1,0 +1,159 @@
+.contact-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.contact-hero {
+  background: linear-gradient(135deg, #00A859 0%, #008a4a 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: left; /* Căn lề trái */
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contact-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: left; /* Căn lề trái */
+}
+
+.contact-hero-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0; /* Bỏ margin: 0 auto để căn trái */
+  opacity: 0.95;
+  text-align: left; /* Căn lề trái */
+}
+
+.contact-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact-info {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-base);
+}
+
+.contact-info:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info h2 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 1.8rem;
+  border-bottom: 2px solid #00A859;
+  padding-bottom: 0.5rem;
+  text-align: left; /* Căn lề trái */
+}
+
+.contact-info-item {
+  margin-bottom: 2rem;
+  transition: all var(--transition-base);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.contact-info-item:last-child {
+  margin-bottom: 0;
+}
+
+.contact-info-item:hover {
+  background-color: var(--color-gray-50);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-info-item h3 {
+  color: #00A859;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: var(--spacing-xs);
+  text-align: left; /* Căn lề trái */
+}
+
+.contact-info-item h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-full);
+}
+
+.contact-info-item p {
+  color: #666;
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+.contact-form-wrapper {
+  background: transparent;
+}
+
+@media (max-width: 968px) {
+  .contact-main {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .contact-hero-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero {
+    padding: 2rem 1rem;
+  }
+
+  .contact-main {
+    padding: 2rem 1rem;
+  }
+}
+

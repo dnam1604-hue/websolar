@@ -1,0 +1,41 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white);
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thêm padding và max-width cho các trang khác (không phải Home và Admin) */
+.main-content > *:not(.home):not(.admin-page-wrapper) {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Admin page sử dụng full width */
+.main-content.admin-full-width {
+  padding: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .main-content:not(.admin-full-width) {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+}
+
+
