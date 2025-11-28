@@ -12,6 +12,7 @@ Tài liệu này hướng dẫn cách triển khai dự án WebSolar lên Window
 - MongoDB Atlas (Cloud - Khuyến nghị) hoặc MongoDB local
 - IIS (Internet Information Services) - Tùy chọn
 - PM2 for Windows - Tùy chọn
+- **Domain name (Tùy chọn)** - Có thể dùng IP address nếu chưa có domain
 
 ## 🚀 Bước 1: Chuẩn bị Windows Server
 
@@ -134,7 +135,12 @@ notepad .env.production
 
 Chỉnh sửa:
 ```env
-VITE_API_URL=https://api.yourdomain.com
+# Nếu chưa có domain, dùng IP:
+VITE_API_URL=http://YOUR_SERVER_IP:5000
+# Ví dụ: VITE_API_URL=http://123.456.789.0:5000
+
+# Khi có domain, có thể đổi thành:
+# VITE_API_URL=https://api.yourdomain.com
 # Hoặc nếu cùng domain:
 # VITE_API_URL=https://yourdomain.com
 ```
@@ -172,7 +178,10 @@ xcopy /E /Y C:\www\websolar\frontend\dist\* C:\www\html\
 3. Điền thông tin:
    - **Site name**: websolar
    - **Physical path**: `C:\inetpub\wwwroot` (hoặc thư mục bạn chọn)
-   - **Binding**: Port 80, Host name: yourdomain.com
+   - **Binding**: 
+     - Port: 80
+     - Host name: (Để trống nếu chưa có domain, hoặc nhập domain khi có)
+     - IP address: All Unassigned (hoặc chọn IP cụ thể)
 
 #### 5.2. Cấu hình URL Rewrite
 
@@ -259,7 +268,33 @@ Hoặc dùng PM2:
 pm2 start server.js --name websolar-frontend
 ```
 
-## 🔒 Bước 6: Cài đặt SSL (Tùy chọn)
+## 🌐 Bước 6: Cấu hình Domain (Tùy chọn - Có thể bỏ qua nếu chưa có)
+
+### 6.1. Nếu chưa có domain (Dùng IP)
+
+Bạn có thể truy cập website bằng IP address:
+- Frontend: `http://YOUR_SERVER_IP`
+- Backend API: `http://YOUR_SERVER_IP:5000`
+
+**Lưu ý:** 
+- Đảm bảo firewall đã mở port 80 và 5000
+- Cập nhật `VITE_API_URL` trong `.env.production` thành `http://YOUR_SERVER_IP:5000`
+- Để tìm IP server: chạy lệnh `ipconfig` và tìm IPv4 Address
+
+### 6.2. Khi có domain (Cấu hình sau)
+
+1. **Mua domain** từ nhà cung cấp (Namecheap, GoDaddy, Cloudflare, etc.)
+2. **Trỏ DNS** về IP server của bạn:
+   - A record: `@` → `YOUR_SERVER_IP`
+   - A record: `www` → `YOUR_SERVER_IP` (nếu muốn)
+3. **Cập nhật cấu hình:**
+   - Sửa `VITE_API_URL` trong `.env.production` thành domain mới
+   - Cập nhật IIS binding với domain name
+   - Cài SSL certificate (Bước 7)
+
+## 🔒 Bước 7: Cài đặt SSL (Tùy chọn - Chỉ khi có domain)
+
+**Lưu ý:** SSL chỉ cần khi bạn có domain. Nếu chỉ dùng IP, có thể bỏ qua bước này.
 
 ### Sử dụng Let's Encrypt với win-acme
 
@@ -310,17 +345,27 @@ iisreset
 
 ## ✅ Kiểm tra
 
-1. **Backend API:**
+1. **Lấy IP Server của bạn:**
+   ```cmd
+   ipconfig
+   ```
+   Tìm **IPv4 Address** (ví dụ: 192.168.1.100 cho mạng nội bộ)
+   - Nếu là VPS, IP public thường được cung cấp bởi nhà cung cấp hosting
+   - Nếu là server nội bộ, dùng IP local
+
+2. **Backend API:**
    ```cmd
    curl http://localhost:5000
    pm2 logs websolar-backend
    ```
+   - Kiểm tra từ máy khác: `http://YOUR_SERVER_IP:5000`
 
-2. **Frontend:**
-   - Truy cập: `http://yourdomain.com` hoặc `http://localhost:3000`
-   - Kiểm tra console browser (F12)
+3. **Frontend:**
+   - **Nếu chưa có domain:** Truy cập `http://YOUR_SERVER_IP` (port 80) hoặc `http://YOUR_SERVER_IP:3000` (nếu dùng Node.js server)
+   - **Nếu có domain:** Truy cập `http://yourdomain.com`
+   - Kiểm tra console browser (F12) để xem có lỗi không
 
-3. **MongoDB:**
+4. **MongoDB:**
    - Kiểm tra connection trong backend logs
    - Hoặc dùng MongoDB Compass để kết nối
 
@@ -355,14 +400,26 @@ taskkill /PID <PID> /F
 - **Monitor logs** để phát hiện lỗi sớm
 - **Update dependencies** định kỳ
 - **Windows Firewall**: Mở port 80, 443, 5000 (nếu cần)
+- **Domain là tùy chọn**: Có thể chạy với IP address, thêm domain sau
+- **IP Address**: Dùng IP public nếu muốn truy cập từ internet, hoặc IP local nếu chỉ dùng trong mạng nội bộ
+- **Domain là tùy chọn**: Có thể chạy với IP address, thêm domain sau
+- **IP Address**: Dùng IP public nếu muốn truy cập từ internet, hoặc IP local nếu chỉ dùng trong mạng nội bộ
 
 ## 🔧 Cấu hình Windows Firewall
+
+**Quan trọng:** Mở các port này để có thể truy cập từ bên ngoài:
 
 ```cmd
 netsh advfirewall firewall add rule name="Node.js Backend" dir=in action=allow protocol=TCP localport=5000
 netsh advfirewall firewall add rule name="HTTP" dir=in action=allow protocol=TCP localport=80
 netsh advfirewall firewall add rule name="HTTPS" dir=in action=allow protocol=TCP localport=443
 ```
+
+**Kiểm tra IP server của bạn:**
+```cmd
+ipconfig
+```
+Tìm IPv4 Address (thường là 192.168.x.x cho mạng nội bộ, hoặc IP public từ nhà cung cấp VPS)
 
 ---
 

@@ -123,7 +123,9 @@ Xem file [DEPLOYMENT.md](./DEPLOYMENT.md) để biết hướng dẫn chi tiết
    deploy.bat  # Hoặc deploy.ps1, hoặc làm thủ công theo DEPLOYMENT.md
    ```
 
-3. **Cấu hình IIS và SSL** theo hướng dẫn trong `DEPLOYMENT.md`
+3. **Cấu hình IIS** theo hướng dẫn trong `DEPLOYMENT.md`
+   - Có thể dùng IP address nếu chưa có domain
+   - SSL chỉ cần khi có domain
 
 ## 📁 Cấu trúc File Deployment
 
