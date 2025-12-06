@@ -55,14 +55,23 @@ if %errorlevel% equ 0 (
         pm2 start ecosystem.config.js
     )
     pm2 save
+    echo ✅ Backend đã được restart
 ) else (
     echo ❌ PM2 chưa được cài đặt. Cài đặt: npm install -g pm2
     exit /b 1
 )
 
+REM Return to project directory before continuing
+cd /d %PROJECT_DIR%
+
 REM Frontend deployment
+echo.
 echo 📦 Đang cập nhật Frontend...
 cd /d %FRONTEND_DIR%
+if errorlevel 1 (
+    echo ❌ Không thể chuyển đến thư mục frontend: %FRONTEND_DIR%
+    exit /b 1
+)
 
 REM Check if .env.production exists
 if not exist ".env.production" (
@@ -139,15 +148,17 @@ if not exist "node_modules" (
 )
 
 REM Restart frontend PM2
+cd /d %FRONTEND_DIST%
 where pm2 >nul 2>&1
 if %errorlevel% equ 0 (
     echo Đang restart PM2 frontend...
     pm2 restart websolar-frontend
     if errorlevel 1 (
         echo ⚠️  Frontend chưa chạy. Đang start...
-        pm2 start server.js --name websolar-frontend
+        pm2 start server.js --name websolar-frontend --cwd %FRONTEND_DIST%
     )
     pm2 save
+    echo ✅ Frontend đã được restart
 ) else (
     echo ❌ PM2 chưa được cài đặt.
     exit /b 1
