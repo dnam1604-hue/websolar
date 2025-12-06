@@ -1,6 +1,5 @@
 @echo off
-REM WebSolar Deployment Script for Option B (Node.js Server)
-REM Usage: deploy-option-b.bat
+setlocal enabledelayedexpansion
 
 echo 🚀 Bắt đầu quá trình deploy WebSolar (Option B)...
 
@@ -20,16 +19,13 @@ cd /d %PROJECT_DIR%
 
 REM Pull latest code
 echo 📥 Đang pull code mới từ Git...
-git pull origin main
-if errorlevel 1 (
-    git pull origin master
-)
+git pull origin main || git pull origin master
 
 REM Backend deployment
+echo.
 echo 📦 Đang cập nhật Backend...
 cd /d %BACKEND_DIR%
 
-REM Check if .env exists
 if not exist ".env" (
     echo ⚠️  File .env chưa tồn tại. Đang tạo từ .env.example...
     if exist ".env.example" (
@@ -38,22 +34,18 @@ if not exist ".env" (
     )
 )
 
-REM Install dependencies
 echo Đang cài đặt dependencies...
 call npm install --production
+if errorlevel 1 (
+    echo ⚠️  Có lỗi khi cài đặt dependencies backend, nhưng tiếp tục...
+)
 
-REM Create images directory
 if not exist "images" mkdir images
 
-REM Restart PM2
 where pm2 >nul 2>&1
 if %errorlevel% equ 0 (
     echo Đang restart PM2 backend...
-    pm2 restart websolar-backend
-    if errorlevel 1 (
-        echo ⚠️  Backend chưa chạy. Đang start...
-        pm2 start ecosystem.config.js
-    )
+    pm2 restart websolar-backend || pm2 start ecosystem.config.js
     pm2 save
     echo ✅ Backend đã được restart
 ) else (
@@ -66,14 +58,15 @@ cd /d %PROJECT_DIR%
 
 REM Frontend deployment
 echo.
+echo ========================================
 echo 📦 Đang cập nhật Frontend...
+echo ========================================
 cd /d %FRONTEND_DIR%
 if errorlevel 1 (
     echo ❌ Không thể chuyển đến thư mục frontend: %FRONTEND_DIR%
     exit /b 1
 )
 
-REM Check if .env.production exists
 if not exist ".env.production" (
     echo ⚠️  File .env.production chưa tồn tại. Đang tạo từ .env.production.example...
     if exist ".env.production.example" (
@@ -82,19 +75,26 @@ if not exist ".env.production" (
     )
 )
 
-REM Install dependencies
-echo Đang cài đặt dependencies...
+echo Đang cài đặt dependencies frontend...
 call npm install
+if errorlevel 1 (
+    echo ❌ Lỗi khi cài đặt dependencies frontend!
+    exit /b 1
+)
 
-REM Build
 echo Đang build frontend...
 call npm run build
+if errorlevel 1 (
+    echo ❌ Lỗi khi build frontend!
+    exit /b 1
+)
 
-REM Check if dist folder exists
 if not exist "dist" (
     echo ❌ Thư mục dist không tồn tại. Build có thể đã thất bại.
     exit /b 1
 )
+
+echo ✅ Build frontend thành công!
 
 REM Ensure server.js exists in dist folder
 cd /d %FRONTEND_DIST%
@@ -140,7 +140,6 @@ if not exist "server.js" (
     echo ✅ Đã tạo file server.js
 )
 
-REM Check if node_modules exists in dist
 if not exist "node_modules" (
     echo Đang cài đặt dependencies cho frontend server...
     call npm init -y
@@ -148,10 +147,10 @@ if not exist "node_modules" (
 )
 
 REM Restart frontend PM2
-cd /d %FRONTEND_DIST%
+echo.
+echo Đang restart PM2 frontend...
 where pm2 >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Đang restart PM2 frontend...
     pm2 restart websolar-frontend
     if errorlevel 1 (
         echo ⚠️  Frontend chưa chạy. Đang start...
@@ -175,4 +174,3 @@ echo   - Logs Frontend: pm2 logs websolar-frontend
 echo.
 
 pause
-
