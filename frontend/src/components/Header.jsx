@@ -43,7 +43,7 @@ const Header = () => {
     { label: 'Tải ứng dụng SolarEV', path: '/app', icon: <MdPhoneAndroid size={20} /> },
     { label: 'Tìm trạm sạc', path: '/stations', icon: <MdEvStation size={20} /> },
     { label: 'Hướng dẫn sạc', path: '/guide', icon: <MdMenuBook size={20} /> },
-    { label: 'Dịch vụ sạc và gói sạc', path: '/packages', icon: <MdLocalOffer size={20} /> },
+    { label: 'Bảng giá và dịch vụ sạc', path: '/packages', icon: <MdLocalOffer size={20} /> },
     { label: 'FAQ', path: '/faq', icon: <MdHelp size={20} /> },
     { label: 'Tư vấn lắp đặt và liên hệ', path: '/consultation', icon: <MdHeadsetMic size={20} /> },
   ];

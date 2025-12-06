@@ -98,21 +98,28 @@ const GuidePage = () => {
               <div className="step-item">
                 <div className="step-number">Bước 2</div>
                 <div className="step-text">
-                  <p>Khi đến trạm sạc, khách hàng đưa xe vào vị trí sạc còn trống và mở cổng sạc. Vị trí sạc còn trống có thể kiểm tra bằng app SolarEV.</p>
+                  <p>Khi đến trạm sạc, khách hàng đưa xe vào vị trí sạc còn trống và mở cổng sạc.</p>
                 </div>
               </div>
 
               <div className="step-item">
                 <div className="step-number">Bước 3</div>
                 <div className="step-text">
-                  <p>Khách hàng rút vòi sạc, cắm vào xe, sau đó dùng điện thoại đăng nhập vào app SolarEV để quét mã QR được dán trên cột sạc.</p>
+                  <p>Khách hàng rút vòi sạc, cắm vào xe, sau đó dùng điện thoại đăng nhập vào app SolarEV để quét mã QR được dán trên cột sạc. Sau khi quét mã, nhấn bắt đầu sạc để bắt đầu quá trình sạc.</p>
                 </div>
               </div>
 
               <div className="step-item">
                 <div className="step-number">Bước 4</div>
                 <div className="step-text">
-                  <p>Khách hàng click để chọn xe của mình và chọn gói sạc tương ứng với nhu cầu. SolarEV có các gói sạc được cài đặt sẵn theo giá, hoặc khách hàng có thể chọn "Sạc đến khi đầy" để sạc đến khi pin đầy.</p>
+                  <p>Theo dõi tiến trình sạc ở lịch sử sạc xe ở app hoặc màn hình trụ sạc. Bạn sẽ thấy thông tin về dung lượng pin, thời gian sạc và chi phí. Trạm sạc sẽ báo hiệu khi quá trình sạc hoàn tất.</p>
+                </div>
+              </div>
+
+              <div className="step-item">
+                <div className="step-number">Bước 5</div>
+                <div className="step-text">
+                  <p>Dừng quá trình sạc ở trụ, trên app hoặc trên xe. Thanh toán sẽ được tự động trừ vào tài khoản. Rút cáp sạc cẩn thận và đặt lại đúng vị trí.</p>
                 </div>
               </div>
               </div>

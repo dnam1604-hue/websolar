@@ -255,7 +255,7 @@ const NewsManagement = () => {
 
             <label>
               Nội dung đầy đủ
-              <div className="news-content-editor-wrapper">
+              <div className="news-content-editor-wrapper" style={{ color: '#0f172a' }}>
                 <ReactQuill
                   theme="snow"
                   value={newsForm.content || ''}
@@ -313,10 +313,10 @@ const NewsManagement = () => {
                     <span className="upload-hint">Hoặc nhập URL</span>
                   </div>
                   <input
-                    type="url"
+                    type="text"
                     value={newsForm.image}
                     onChange={(e) => setNewsForm({ ...newsForm, image: e.target.value })}
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="Nhập URL ảnh hoặc đường dẫn (VD: /api/images/... hoặc https://example.com/image.jpg)"
                     className="image-url-input"
                   />
                 </div>

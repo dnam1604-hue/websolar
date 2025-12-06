@@ -34,6 +34,7 @@ function MainContent() {
         <Route path="/stations" element={<StationsPage />} />
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/packages" element={<PackagesPage />} />
+        <Route path="/products/:category" element={<PackagesPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/consultation" element={<ConsultationPage />} />
         <Route path="/contact" element={<Contact />} />

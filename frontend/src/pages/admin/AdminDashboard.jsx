@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StationManagement from './StationManagement';
 import NewsManagement from './NewsManagement';
+import ProductManagement from './ProductManagement';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -26,6 +27,11 @@ const AdminDashboard = () => {
       id: 'news',
       label: 'Tin tức',
       icon: '📰'
+    },
+    {
+      id: 'products',
+      label: 'Sản phẩm',
+      icon: '📦'
     }
   ];
 
@@ -35,6 +41,8 @@ const AdminDashboard = () => {
         return <StationManagement />;
       case 'news':
         return <NewsManagement />;
+      case 'products':
+        return <ProductManagement />;
       default:
         return <StationManagement />;
     }

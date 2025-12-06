@@ -744,6 +744,8 @@
   border-bottom-right-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   border-top: none;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
 .news-content-editor-wrapper .ql-toolbar {
@@ -854,11 +856,31 @@
   padding: var(--spacing-md);
   line-height: 1.8;
   font-size: var(--font-size-base);
-  color: var(--color-text);
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+}
+
+/* Đảm bảo tất cả text trong editor có màu đen */
+.news-content-editor-wrapper .ql-editor,
+.news-content-editor-wrapper .ql-editor p,
+.news-content-editor-wrapper .ql-editor h1,
+.news-content-editor-wrapper .ql-editor h2,
+.news-content-editor-wrapper .ql-editor h3,
+.news-content-editor-wrapper .ql-editor h4,
+.news-content-editor-wrapper .ql-editor h5,
+.news-content-editor-wrapper .ql-editor h6,
+.news-content-editor-wrapper .ql-editor ul,
+.news-content-editor-wrapper .ql-editor ol,
+.news-content-editor-wrapper .ql-editor li,
+.news-content-editor-wrapper .ql-editor span,
+.news-content-editor-wrapper .ql-editor div,
+.news-content-editor-wrapper .ql-editor strong,
+.news-content-editor-wrapper .ql-editor em {
+  color: #0f172a !important;
 }
 
 .news-content-editor-wrapper .ql-editor.ql-blank::before {
-  color: #94a3b8;
+  color: #94a3b8 !important;
   font-style: normal;
   left: var(--spacing-md);
   font-size: var(--font-size-base);
