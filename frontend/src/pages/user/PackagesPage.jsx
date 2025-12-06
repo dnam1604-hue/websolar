@@ -8,8 +8,7 @@ import './PackagesPage.css';
 const categoryMap = {
   'ac': 'AC',
   'dc': 'DC',
-  'portable': 'Portable',
-  'voucher': 'Voucher'
+  'portable': 'Portable'
 };
 
 const PackagesPage = () => {

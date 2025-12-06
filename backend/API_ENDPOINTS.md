@@ -65,7 +65,7 @@
 
 - **GET** `/products` - Lấy tất cả sản phẩm
   - Query params: 
-    - `?category=DC` (optional: "DC" | "AC" | "Portable" | "Voucher" | "Other")
+    - `?category=DC` (optional: "DC" | "AC" | "Portable" | "Other")
     - `?status=active` (optional: "active" | "inactive")
 
 - **GET** `/products/:id` - Lấy sản phẩm theo ID
@@ -76,7 +76,7 @@
     "name": "Tên sản phẩm",
     "description": "Mô tả sản phẩm",
     "price": "499K/tháng hoặc Liên hệ",
-    "category": "DC", // "DC" | "AC" | "Portable" | "Voucher" | "Other"
+    "category": "DC", // "DC" | "AC" | "Portable" | "Other"
     "status": "active", // optional: "active" | "inactive"
     "image": "https://example.com/image.jpg" // optional
   }

@@ -11,7 +11,6 @@ import {
   MdBolt,
   MdBatteryChargingFull,
   MdCable,
-  MdCardGiftcard,
   MdBusiness,
   MdDirectionsCar,
   MdStar,
@@ -52,13 +51,11 @@ const Header = () => {
     { label: 'Bộ sạc DC', path: '/products/dc', icon: <MdBolt size={20} /> },
     { label: 'Bộ sạc AC', path: '/products/ac', icon: <MdBatteryChargingFull size={20} /> },
     { label: 'Bộ sạc di động, phụ kiện', path: '/products/portable', icon: <MdCable size={20} /> },
-    { label: 'Voucher sạc', path: '/products/voucher', icon: <MdCardGiftcard size={20} /> },
   ];
 
   const partnerMenuItems = [
     { label: 'Mở trạm sạc công cộng', path: '/partner/stations', icon: <MdBusiness size={20} /> },
     { label: 'Giải pháp cho hãng xe & nhà phân phối', path: '/partner/solutions', icon: <MdDirectionsCar size={20} /> },
-    { label: 'Gói voucher sạc', path: '/partner/voucher', icon: <MdCardGiftcard size={20} /> },
     { label: 'Lý do chọn SolarEV', path: '/partner/why', icon: <MdStar size={20} /> },
   ];
 

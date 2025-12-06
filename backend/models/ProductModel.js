@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['DC', 'AC', 'Portable', 'Voucher', 'Other'],
+    enum: ['DC', 'AC', 'Portable', 'Other'],
     default: 'Other'
   },
   status: {

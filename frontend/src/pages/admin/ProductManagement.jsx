@@ -176,7 +176,6 @@ const ProductManagement = () => {
     { value: 'AC', label: 'Bộ sạc AC' },
     { value: 'DC', label: 'Bộ sạc DC' },
     { value: 'Portable', label: 'Bộ sạc di động' },
-    { value: 'Voucher', label: 'Voucher sạc' },
     { value: 'Other', label: 'Khác' }
   ];
 
@@ -294,7 +293,6 @@ const ProductManagement = () => {
                   <option value="AC">Bộ sạc AC</option>
                   <option value="DC">Bộ sạc DC</option>
                   <option value="Portable">Bộ sạc di động</option>
-                  <option value="Voucher">Voucher sạc</option>
                   <option value="Other">Khác</option>
                 </select>
               </label>
