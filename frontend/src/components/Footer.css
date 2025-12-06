@@ -19,6 +19,35 @@
   margin-bottom: var(--spacing-2xl);
 }
 
+.footer-logo-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+}
+
+.footer-logo-text span:first-child {
+  color: #1E88E5; /* Solar - xanh biển */
+}
+
+.footer-logo-text span:last-child {
+  color: #E53935; /* EV - đỏ */
+}
+
 .footer-section h3 {
   color: #1565C0;
   font-size: var(--font-size-lg);

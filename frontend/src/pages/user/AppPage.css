@@ -1,0 +1,273 @@
+.app-page {
+  width: 100%;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height));
+  background: #ffffff;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+.app-page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.app-page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-align: center;
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.2;
+}
+
+.app-page-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin: 0 0 var(--spacing-2xl) 0;
+  line-height: 1.5;
+}
+
+/* Hình ảnh hướng dẫn */
+.app-guide-image-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--spacing-2xl) 0;
+}
+
+.app-guide-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Video và QR Code Section */
+.app-media-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin: var(--spacing-2xl) 0;
+  align-items: start;
+}
+
+@media (max-width: 968px) {
+  .app-media-section {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+}
+
+/* Bên trái: Text và QR Codes */
+.app-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding-right: var(--spacing-xl);
+}
+
+.app-main-heading {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.highlight-red {
+  color: #E53935;
+  font-weight: 700;
+}
+
+.highlight-blue {
+  color: #1976D2;
+  font-weight: 700;
+}
+
+.highlight-solar {
+  color: #2196F3;
+  font-weight: 700;
+}
+
+.highlight-ev {
+  color: #E53935;
+  font-weight: 700;
+}
+
+.app-description {
+  font-size: 1rem;
+  color: #1A1A1A;
+  line-height: 1.7;
+  margin: 0;
+  text-align: justify;
+}
+
+.qr-instruction {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-align: center;
+  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+  letter-spacing: 0.05em;
+}
+
+.qr-codes-container {
+  display: flex;
+  gap: var(--spacing-xl);
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-sm);
+}
+
+.qr-code-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 0 0 auto;
+}
+
+.qr-code-image {
+  width: 200px;
+  height: 200px;
+  border: none;
+  padding: 0;
+  object-fit: contain;
+  display: block;
+}
+
+.app-download-button {
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  line-height: 0;
+}
+
+.app-download-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.app-download-button-img {
+  height: 55px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Bên phải: Video */
+.app-right-section {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--spacing-2xl);
+  align-self: start;
+}
+
+.video-container {
+  width: 100%;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: #000;
+  overflow: hidden;
+}
+
+.youtube-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+@media (max-width: 968px) {
+  .app-left-section {
+    padding-right: 0;
+  }
+
+  .app-right-section {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-page {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
+  .app-page-title {
+    font-size: 2rem;
+  }
+
+  .app-page-subtitle {
+    font-size: 1rem;
+  }
+
+  .app-media-section {
+    gap: var(--spacing-xl);
+  }
+
+  .app-left-section {
+    gap: var(--spacing-lg);
+  }
+
+  .app-main-heading {
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  .app-description {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: left;
+  }
+
+  .qr-instruction {
+    font-size: 0.95rem;
+    margin: var(--spacing-md) 0;
+  }
+
+  .qr-codes-container {
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .qr-code-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .app-download-button-img {
+    height: 55px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-page-title {
+    font-size: 1.75rem;
+  }
+
+  .app-main-heading {
+    font-size: 1.2rem;
+  }
+
+  .qr-code-image {
+    width: 180px;
+    height: 180px;
+  }
+
+  .app-download-button-img {
+    height: 50px;
+  }
+}
+

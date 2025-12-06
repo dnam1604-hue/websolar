@@ -68,9 +68,13 @@ pm2-startup install
 cd C:\
 mkdir www
 cd www
-git clone your-repository-url websolar
+git clone https://github.com/dnam1604-hue/websolar.git websolar
 cd websolar
 ```
+
+**Lưu ý:** 
+- Thay `https://github.com/dnam1604-hue/websolar.git` bằng URL repository thực tế của bạn nếu khác
+- Nếu repository là private, bạn cần đăng nhập Git hoặc dùng Personal Access Token
 
 ## ⚙️ Bước 3: Cấu hình Backend
 
@@ -82,12 +86,20 @@ copy .env.example .env
 notepad .env
 ```
 
-Chỉnh sửa các giá trị:
+Chỉnh sửa các giá trị (dùng MongoDB trên server):
 ```env
 PORT=5000
 NODE_ENV=production
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/websolar?retryWrites=true&w=majority
+MONGODB_URI=mongodb://admin:Buingocchung2001%40@103.56.162.112:27777/websolar?authSource=admin
 ```
+
+**Lưu ý:**
+- IP server MongoDB: `103.56.162.112`
+- Port MongoDB: `27777`
+- Username: `admin`
+- Password: `Buingocchung2001@` (đã được encode thành `%40`)
+- Database name: `websolar` (nếu database thực tế khác, thay `websolar` bằng tên database của bạn)
+- `authSource=admin`: Xác thực từ database `admin`
 
 ### 3.2. Cài đặt dependencies
 
@@ -133,16 +145,15 @@ copy .env.production.example .env.production
 notepad .env.production
 ```
 
-Chỉnh sửa:
+Chỉnh sửa (dùng IP server):
 ```env
-# Nếu chưa có domain, dùng IP:
 VITE_API_URL=http://103.56.162.112:5000
-
-# Khi có domain, có thể đổi thành:
-# VITE_API_URL=https://api.yourdomain.com
-# Hoặc nếu cùng domain:
-# VITE_API_URL=https://yourdomain.com
 ```
+
+**Lưu ý:** 
+- IP server của bạn: `103.56.162.112`
+- Port backend: `5000`
+- Khi có domain sau này, có thể đổi thành: `VITE_API_URL=https://yourdomain.com` hoặc `VITE_API_URL=https://api.yourdomain.com`
 
 ### 4.2. Build Frontend
 

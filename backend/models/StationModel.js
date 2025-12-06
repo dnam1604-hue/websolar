@@ -19,7 +19,7 @@ const stationSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Hoạt động', 'Bảo trì', 'Sắp khai trương'],
+    enum: ['Hoạt động', 'Bảo trì'],
     default: 'Hoạt động'
   },
   location: {

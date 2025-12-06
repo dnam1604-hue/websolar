@@ -36,21 +36,34 @@
   align-items: center;
   gap: var(--spacing-sm);
   transition: transform var(--transition-base);
+  height: 50px;
 }
 
 .logo:hover {
   transform: scale(1.05);
 }
 
-.logo h1 {
+.logo-image {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-text {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   margin: 0;
-  color: #00A859;
+  display: block;
+  line-height: 1;
 }
 
-.logo h1 span {
-  color: #00A859;
+.logo-text span:first-child {
+  color: #1E88E5; /* Solar - xanh biển */
+}
+
+.logo-text span:last-child {
+  color: #E53935; /* EV - đỏ */
 }
 
 .nav {
@@ -85,6 +98,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background-color: #1E88E5 !important;
+  color: #ffffff !important;
+}
+
+.btn-header:hover {
+  background-color: #1565C0 !important;
+  color: #ffffff !important;
 }
 
 .icon-btn {

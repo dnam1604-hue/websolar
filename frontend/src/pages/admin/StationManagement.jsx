@@ -285,8 +285,6 @@ const StationManagement = () => {
                     newIcon = 'green';
                   } else if (newStatus === 'Bảo trì') {
                     newIcon = 'orange';
-                  } else if (newStatus === 'Sắp khai trương') {
-                    newIcon = 'blue';
                   }
                   setStationForm({ ...stationForm, status: newStatus, icon: newIcon });
                 }}
@@ -294,7 +292,6 @@ const StationManagement = () => {
               >
                 <option value="Hoạt động">⚡ Hoạt động (Logo: ⚡)</option>
                 <option value="Bảo trì">🔧 Bảo trì (Logo: 🔧)</option>
-                <option value="Sắp khai trương">🆕 Sắp khai trương (Logo: 🆕)</option>
               </select>
             </label>
             

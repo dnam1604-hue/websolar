@@ -120,10 +120,23 @@ Xem file [DEPLOYMENT.md](./DEPLOYMENT.md) để biết hướng dẫn chi tiết
    ```cmd
    git clone your-repo-url C:\www\websolar
    cd C:\www\websolar
-   deploy.bat  # Hoặc deploy.ps1, hoặc làm thủ công theo DEPLOYMENT.md
    ```
 
-3. **Cấu hình IIS** theo hướng dẫn trong `DEPLOYMENT.md`
+3. **Chọn phương án deploy:**
+   - **Option A (IIS):** Dùng `deploy.bat` hoặc `deploy.ps1`
+   - **Option B (Node.js Server):** Dùng `deploy-option-b.bat` hoặc `deploy-option-b.ps1` (Khuyến nghị - đơn giản hơn)
+   
+   ```cmd
+   REM Option B (Khuyến nghị)
+   deploy-option-b.bat
+   
+   REM Hoặc Option A (IIS)
+   deploy.bat
+   ```
+
+4. **Cấu hình:**
+   - Option A: Cấu hình IIS theo hướng dẫn trong `DEPLOYMENT.md`
+   - Option B: Frontend chạy trên port 3000, không cần IIS
    - Có thể dùng IP address nếu chưa có domain
    - SSL chỉ cần khi có domain
 
@@ -132,9 +145,12 @@ Xem file [DEPLOYMENT.md](./DEPLOYMENT.md) để biết hướng dẫn chi tiết
 - `backend/.env.example` - Mẫu file cấu hình backend
 - `frontend/.env.production.example` - Mẫu file cấu hình frontend production
 - `backend/ecosystem.config.js` - Cấu hình PM2 cho backend (Windows paths)
-- `deploy.ps1` - Script tự động deploy (PowerShell)
-- `deploy.bat` - Script tự động deploy (Batch)
+- `deploy.ps1` - Script tự động deploy Option A/IIS (PowerShell)
+- `deploy.bat` - Script tự động deploy Option A/IIS (Batch)
+- `deploy-option-b.ps1` - Script tự động deploy Option B/Node.js Server (PowerShell) ⭐
+- `deploy-option-b.bat` - Script tự động deploy Option B/Node.js Server (Batch) ⭐
 - `DEPLOYMENT.md` - Hướng dẫn chi tiết triển khai Windows Server
+- `QUICK_START.md` - Hướng dẫn nhanh triển khai
 
 ## License
 

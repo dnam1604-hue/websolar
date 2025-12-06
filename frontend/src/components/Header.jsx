@@ -28,6 +28,7 @@ import './Header.css';
 const Header = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -77,7 +78,18 @@ const Header = () => {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>Solar<span style={{ color: '#00A859' }}>EV</span></h1>
+          {!logoError && (
+            <img 
+              src="/images/solarev-logo.png" 
+              alt="SolarEV Logo" 
+              className="logo-image"
+              onError={() => setLogoError(true)}
+            />
+          )}
+          <h1 className="logo-text">
+            <span style={{ color: '#1E88E5' }}>Solar</span>
+            <span style={{ color: '#E53935' }}>EV</span>
+          </h1>
         </Link>
 
         {/* Desktop Navigation */}

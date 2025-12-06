@@ -1,0 +1,22 @@
+.stations-page {
+  width: 100%;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height));
+  background-color: var(--color-white);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-section {
+  width: 100%;
+  padding: var(--spacing-3xl) 0;
+  background-color: var(--color-white);
+}
+
+.section-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+

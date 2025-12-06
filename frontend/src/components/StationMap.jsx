@@ -12,26 +12,56 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
-// Màu sắc và logo cho các trạng thái
+// Logo SVG cho các trạng thái
+const getStatusLogo = (status) => {
+  if (status === 'Hoạt động') {
+    // Logo sạc điện (pin với dấu +)
+    return `
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 3V7M10 13V17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 7H14M6 13H14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M10 7.5V12.5M7.5 10H12.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `;
+  } else if (status === 'Bảo trì') {
+    // Logo cờ lê (wrench)
+    return `
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.5 3.5L4 7C2.5 8.5 2.5 10.5 4 12L10 18C11.5 19.5 13.5 19.5 15 18L18.5 14.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 6.5L17.5 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 4.5L16.5 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="2" fill="white"/>
+      </svg>
+    `;
+  }
+  // Default: Logo sạc điện
+  return `
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 3V7M10 13V17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6 7H14M6 13H14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="10" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+      <path d="M10 7.5V12.5M7.5 10H12.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  `;
+};
+
+// Màu sắc cho các trạng thái
 const statusConfig = {
   green: {
     color: '#00A859',    // Hoạt động
-    logo: '⚡',           // Logo sét - tạm thời
-    label: 'A'            // Hoặc dùng chữ A
+    label: 'A'
   },
   blue: {
-    color: '#2196F3',     // Sắp khai trương
-    logo: '🆕',           // Logo NEW - tạm thời
-    label: 'N'            // Hoặc dùng chữ N
+    color: '#2196F3',     // Sắp khai trương (đã loại bỏ)
+    label: 'N'
   },
   orange: {
     color: '#FF9800',     // Bảo trì
-    logo: '🔧',           // Logo wrench - tạm thời
-    label: 'M'            // Hoặc dùng chữ M
+    label: 'M'
   },
   red: {
     color: '#F44336',     // Khác/Sự cố
-    logo: '⚠',            // Logo warning
     label: '!'
   }
 };
@@ -40,22 +70,15 @@ const statusConfig = {
 const createIcon = (color = 'green', status = null) => {
   const config = statusConfig[color] || statusConfig.green;
   
-  // Xác định logo dựa trên status nếu có
-  let logo = config.logo;
-  if (status === 'Hoạt động') {
-    logo = statusConfig.green.logo;
-  } else if (status === 'Bảo trì') {
-    logo = statusConfig.orange.logo;
-  } else if (status === 'Sắp khai trương') {
-    logo = statusConfig.blue.logo;
-  }
+  // Lấy logo SVG dựa trên status
+  const logoSvg = getStatusLogo(status || 'Hoạt động');
   
-  // Tạo HTML cho custom marker với logo tương ứng
+  // Tạo HTML cho custom marker với logo SVG
   const iconHtml = `
     <div style="
       background-color: ${config.color};
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50% 50% 50% 0;
       transform: rotate(-45deg);
       border: 3px solid white;
@@ -65,24 +88,23 @@ const createIcon = (color = 'green', status = null) => {
       justify-content: center;
       position: relative;
     ">
-      <span style="
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
+      <div style="
         transform: rotate(45deg);
-        font-family: Arial, sans-serif;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        line-height: 1;
-      ">${logo}</span>
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+      ">${logoSvg}</div>
     </div>
   `;
 
   return L.divIcon({
     html: iconHtml,
     className: 'custom-marker-icon',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32]
+    iconSize: [36, 36],
+    iconAnchor: [18, 36],
+    popupAnchor: [0, -36]
   });
 };
 
@@ -214,8 +236,6 @@ const getStatusEmoji = (station) => {
     return '🟢';
   } else if (station.status === 'Bảo trì') {
     return '🟠';
-  } else if (station.status === 'Sắp khai trương') {
-    return '🔵';
   }
   return '🟢';
 };
@@ -406,8 +426,6 @@ const StationMap = ({
         iconColor = 'green';
       } else if (station.status === 'Bảo trì') {
         iconColor = 'orange';
-      } else if (station.status === 'Sắp khai trương') {
-        iconColor = 'blue';
       } else {
         iconColor = 'green';
       }
@@ -441,7 +459,6 @@ const StationMap = ({
       if (filters.status.length > 0) {
         const statusMap = {
           'Đang hoạt động': 'Hoạt động',
-          'Sắp ra mắt': 'Sắp khai trương',
           'Đang bảo trì': 'Bảo trì'
         };
         const matchesStatus = filters.status.some(filterStatus => {
@@ -577,19 +594,6 @@ const StationMap = ({
                     }}
                   />
                   <span>Đang hoạt động</span>
-                </label>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={filters.status.includes('Sắp ra mắt')}
-                    onChange={(e) => {
-                      const newStatus = e.target.checked
-                        ? [...filters.status, 'Sắp ra mắt']
-                        : filters.status.filter(s => s !== 'Sắp ra mắt');
-                      setFilters({ ...filters, status: newStatus });
-                    }}
-                  />
-                  <span>Sắp ra mắt</span>
                 </label>
                 <label className="checkbox-label">
                   <input

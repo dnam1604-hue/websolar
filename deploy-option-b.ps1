@@ -1,9 +1,9 @@
-# WebSolar Deployment Script for Windows Server
-# Usage: .\deploy.ps1
+# WebSolar Deployment Script for Option B (Node.js Server)
+# Usage: .\deploy-option-b.ps1
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "🚀 Bắt đầu quá trình deploy WebSolar..." -ForegroundColor Cyan
+Write-Host "🚀 Bắt đầu quá trình deploy WebSolar (Option B)..." -ForegroundColor Cyan
 
 # Colors
 $GREEN = "Green"
@@ -14,13 +14,11 @@ $RED = "Red"
 $PROJECT_DIR = "C:\www\websolar"
 $BACKEND_DIR = "$PROJECT_DIR\backend"
 $FRONTEND_DIR = "$PROJECT_DIR\frontend"
-$WEB_ROOT = "C:\inetpub\wwwroot"
+$FRONTEND_DIST = "$FRONTEND_DIR\dist"
 
 # Check if project directory exists
 if (-not (Test-Path $PROJECT_DIR)) {
     Write-Host "❌ Thư mục dự án không tồn tại: $PROJECT_DIR" -ForegroundColor $RED
-    Write-Host "Vui lòng clone repository trước:" -ForegroundColor $YELLOW
-    Write-Host "  git clone your-repo-url $PROJECT_DIR" -ForegroundColor $YELLOW
     exit 1
 }
 
@@ -48,8 +46,6 @@ if (-not (Test-Path ".env")) {
     if (Test-Path ".env.example") {
         Copy-Item ".env.example" ".env"
         Write-Host "⚠️  Vui lòng chỉnh sửa file .env với thông tin thực tế!" -ForegroundColor $YELLOW
-    } else {
-        Write-Host "❌ Không tìm thấy .env.example" -ForegroundColor $RED
     }
 }
 
@@ -64,16 +60,16 @@ if (-not (Test-Path "images")) {
 
 # Restart PM2
 if (Get-Command pm2 -ErrorAction SilentlyContinue) {
-    Write-Host "Đang restart PM2..." -ForegroundColor $YELLOW
+    Write-Host "Đang restart PM2 backend..." -ForegroundColor $YELLOW
     pm2 restart websolar-backend
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "⚠️  PM2 app chưa tồn tại. Đang start..." -ForegroundColor $YELLOW
+        Write-Host "⚠️  Backend chưa chạy. Đang start..." -ForegroundColor $YELLOW
         pm2 start ecosystem.config.js
     }
     pm2 save
 } else {
-    Write-Host "⚠️  PM2 chưa được cài đặt. Backend sẽ không tự động restart." -ForegroundColor $YELLOW
-    Write-Host "Cài đặt PM2: npm install -g pm2" -ForegroundColor $YELLOW
+    Write-Host "❌ PM2 chưa được cài đặt. Cài đặt: npm install -g pm2" -ForegroundColor $RED
+    exit 1
 }
 
 # Frontend deployment
@@ -86,8 +82,6 @@ if (-not (Test-Path ".env.production")) {
     if (Test-Path ".env.production.example") {
         Copy-Item ".env.production.example" ".env.production"
         Write-Host "⚠️  Vui lòng chỉnh sửa file .env.production với VITE_API_URL thực tế!" -ForegroundColor $YELLOW
-    } else {
-        Write-Host "❌ Không tìm thấy .env.production.example" -ForegroundColor $RED
     }
 }
 
@@ -99,34 +93,89 @@ npm install
 Write-Host "Đang build frontend..." -ForegroundColor $YELLOW
 npm run build
 
-# Copy to web root
-if (Test-Path "dist") {
-    Write-Host "Đang copy files vào web root..." -ForegroundColor $YELLOW
-    
-    # Create web root if not exists
-    if (-not (Test-Path $WEB_ROOT)) {
-        New-Item -ItemType Directory -Path $WEB_ROOT -Force | Out-Null
-    }
-    
-    # Copy files
-    Copy-Item -Path "dist\*" -Destination $WEB_ROOT -Recurse -Force
-    
-    Write-Host "✅ Files đã được copy vào $WEB_ROOT" -ForegroundColor $GREEN
-} else {
+# Check if dist folder exists
+if (-not (Test-Path "dist")) {
     Write-Host "❌ Thư mục dist không tồn tại. Build có thể đã thất bại." -ForegroundColor $RED
     exit 1
 }
 
-# Restart IIS (if using IIS)
-if (Get-Service -Name W3SVC -ErrorAction SilentlyContinue) {
-    Write-Host "Đang restart IIS..." -ForegroundColor $YELLOW
-    iisreset
+# Ensure server.js exists in dist folder
+Set-Location $FRONTEND_DIST
+if (-not (Test-Path "server.js")) {
+    Write-Host "⚠️  File server.js không tồn tại trong dist. Đang tạo..." -ForegroundColor $YELLOW
+    
+    $serverJsContent = @"
+const express = require('express');
+const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
+
+// API proxy
+app.use('/api', createProxyMiddleware({
+  target: 'http://localhost:5000',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': '/api'
+  }
+}));
+
+// React Router - serve index.html for all non-API routes
+app.use((req, res, next) => {
+  // Skip API routes
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  
+  // Check if it's a file request (has extension)
+  if (req.path.includes('.')) {
+    return next();
+  }
+  
+  // Serve index.html for all other routes
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Frontend server running on http://0.0.0.0:${PORT}`);
+});
+"@
+    
+    Set-Content -Path "server.js" -Value $serverJsContent
+    Write-Host "✅ Đã tạo file server.js" -ForegroundColor $GREEN
 }
 
+# Check if node_modules exists in dist
+if (-not (Test-Path "node_modules")) {
+    Write-Host "Đang cài đặt dependencies cho frontend server..." -ForegroundColor $YELLOW
+    npm init -y | Out-Null
+    npm install express http-proxy-middleware
+}
+
+# Restart frontend PM2
+if (Get-Command pm2 -ErrorAction SilentlyContinue) {
+    Write-Host "Đang restart PM2 frontend..." -ForegroundColor $YELLOW
+    pm2 restart websolar-frontend
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "⚠️  Frontend chưa chạy. Đang start..." -ForegroundColor $YELLOW
+        pm2 start server.js --name websolar-frontend
+    }
+    pm2 save
+} else {
+    Write-Host "❌ PM2 chưa được cài đặt." -ForegroundColor $RED
+    exit 1
+}
+
+Write-Host ""
 Write-Host "✅ Deploy hoàn tất!" -ForegroundColor $GREEN
 Write-Host ""
 Write-Host "📋 Kiểm tra:" -ForegroundColor $YELLOW
 Write-Host "  - Backend: pm2 status" -ForegroundColor $YELLOW
-Write-Host "  - Frontend: Truy cập domain của bạn" -ForegroundColor $YELLOW
+Write-Host "  - Frontend: http://103.56.162.112:3000" -ForegroundColor $YELLOW
 Write-Host "  - Logs: pm2 logs websolar-backend" -ForegroundColor $YELLOW
+Write-Host "  - Logs Frontend: pm2 logs websolar-frontend" -ForegroundColor $YELLOW
+Write-Host ""
 

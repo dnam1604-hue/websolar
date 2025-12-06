@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 
 const Footer = () => {
+  const [logoError, setLogoError] = useState(false);
+
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-              Solar<span style={{ color: '#00A859' }}>EV</span>
-            </h3>
+            <div className="footer-logo-container">
+              {!logoError && (
+                <img 
+                  src="/images/solarev-logo.png" 
+                  alt="SolarEV Logo" 
+                  className="footer-logo"
+                  onError={() => setLogoError(true)}
+                />
+              )}
+              <h3 className="footer-logo-text">
+                <span style={{ color: '#1E88E5' }}>Solar</span>
+                <span style={{ color: '#E53935' }}>EV</span>
+              </h3>
+            </div>
             <p>Kết nối tương lai sạch</p>
             <p>Giải pháp năng lượng mặt trời và xe điện cho tương lai bền vững.</p>
           </div>

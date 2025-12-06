@@ -44,13 +44,24 @@
 }
 
 .dropdown-arrow {
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
   transition: transform var(--transition-base);
-  display: inline-block;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.dropdown-arrow svg {
+  width: 10px;
+  height: 6px;
+  display: block;
 }
 
 .dropdown-arrow.open {
   transform: rotate(180deg);
+  opacity: 1;
 }
 
 .dropdown-menu {
