@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { contactService } from '../services/contactService';
 import './ContactForm.css';
 
-const ContactForm = ({ onSuccess, onCancel }) => {
+const ContactForm = ({ onSuccess, onCancel, hideTitle = false, submitButtonText = 'Gửi yêu cầu' }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    type: 'Tư vấn lắp đặt',
+    company: '',
+    address: '',
+    province: '',
+    district: '',
+    area: '',
+    type: 'Đăng ký đặt trạm',
     message: ''
   });
   
@@ -32,6 +37,14 @@ const ContactForm = ({ onSuccess, onCancel }) => {
       newErrors.phone = 'Số điện thoại là bắt buộc';
     } else if (!/^[0-9+\-\s()]+$/.test(formData.phone)) {
       newErrors.phone = 'Số điện thoại không hợp lệ';
+    }
+
+    if (!formData.address?.trim()) {
+      newErrors.address = 'Địa chỉ là bắt buộc';
+    }
+
+    if (!formData.province?.trim()) {
+      newErrors.province = 'Tỉnh/Thành phố là bắt buộc';
     }
 
     if (!formData.message.trim()) {
@@ -78,7 +91,12 @@ const ContactForm = ({ onSuccess, onCancel }) => {
           name: '',
           email: '',
           phone: '',
-          type: 'Tư vấn lắp đặt',
+          company: '',
+          address: '',
+          province: '',
+          district: '',
+          area: '',
+          type: 'Đăng ký đặt trạm',
           message: ''
         });
         
@@ -107,7 +125,7 @@ const ContactForm = ({ onSuccess, onCancel }) => {
   return (
     <div className="contact-form-container">
       <form className="contact-form" onSubmit={handleSubmit}>
-        <h3>Gửi yêu cầu liên hệ</h3>
+        {!hideTitle && <h3>Gửi yêu cầu liên hệ</h3>}
         
         {success && (
           <div className="contact-form-success">
@@ -173,6 +191,85 @@ const ContactForm = ({ onSuccess, onCancel }) => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="company">
+            Tên công ty/Tổ chức
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            placeholder="Nhập tên công ty/tổ chức"
+            disabled={loading || success}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="address">
+            Địa chỉ <span className="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            className={errors.address ? 'error' : ''}
+            placeholder="Nhập địa chỉ chi tiết"
+            disabled={loading || success}
+          />
+          {errors.address && <span className="error-message">{errors.address}</span>}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="province">
+            Tỉnh/Thành phố <span className="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="province"
+            name="province"
+            value={formData.province}
+            onChange={handleChange}
+            className={errors.province ? 'error' : ''}
+            placeholder="Nhập tỉnh/thành phố"
+            disabled={loading || success}
+          />
+          {errors.province && <span className="error-message">{errors.province}</span>}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="district">
+            Quận/Huyện
+          </label>
+          <input
+            type="text"
+            id="district"
+            name="district"
+            value={formData.district}
+            onChange={handleChange}
+            placeholder="Nhập quận/huyện"
+            disabled={loading || success}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="area">
+            Diện tích mặt bằng (m²)
+          </label>
+          <input
+            type="number"
+            id="area"
+            name="area"
+            value={formData.area}
+            onChange={handleChange}
+            placeholder="Nhập diện tích mặt bằng"
+            disabled={loading || success}
+          />
+        </div>
+
+        <div className="form-group">
           <label htmlFor="type">
             Loại yêu cầu <span className="required">*</span>
           </label>
@@ -183,6 +280,7 @@ const ContactForm = ({ onSuccess, onCancel }) => {
             onChange={handleChange}
             disabled={loading || success}
           >
+            <option value="Đăng ký đặt trạm">Đăng ký đặt trạm</option>
             <option value="Tư vấn lắp đặt">Tư vấn lắp đặt</option>
             <option value="Hợp tác">Hợp tác</option>
             <option value="Hỗ trợ kỹ thuật">Hỗ trợ kỹ thuật</option>
@@ -223,7 +321,7 @@ const ContactForm = ({ onSuccess, onCancel }) => {
             className="btn btn-primary"
             disabled={loading || success}
           >
-            {loading ? 'Đang gửi...' : success ? 'Đã gửi thành công!' : 'Gửi yêu cầu'}
+            {loading ? 'Đang gửi...' : success ? 'Đã gửi thành công!' : submitButtonText}
           </button>
         </div>
       </form>

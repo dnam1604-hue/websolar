@@ -22,7 +22,8 @@
 }
 
 .contact-form-container {
-  max-width: 600px;
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -34,6 +35,9 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 0.5s ease-out;
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
 }
 
 .contact-form::before {
@@ -52,6 +56,18 @@
   margin-bottom: 1.5rem;
   color: #333;
   font-size: 1.5rem;
+  grid-column: 1 / -1;
+}
+
+.contact-form-success,
+.contact-form-error {
+  grid-column: 1 / -1;
+}
+
+.form-group:has(textarea),
+.form-group:has(select[multiple]),
+.form-actions {
+  grid-column: 1 / -1;
 }
 
 .form-group {
@@ -214,6 +230,13 @@
 
   .contact-form {
     padding: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group:has(textarea),
+  .form-group:has(select[multiple]),
+  .form-actions {
+    grid-column: 1;
   }
 
   .form-actions {

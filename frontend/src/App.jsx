@@ -16,6 +16,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import NewsDetail from './pages/NewsDetail';
 import News from './pages/News';
 import About from './pages/About';
+import PartnerStationsPage from './pages/PartnerStationsPage';
 import { CmsProvider } from './context/CmsContext';
 import './App.css';
 
@@ -38,6 +39,7 @@ function MainContent() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/consultation" element={<ConsultationPage />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/partner/stations" element={<PartnerStationsPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </main>
